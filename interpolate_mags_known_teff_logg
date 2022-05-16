@@ -1,0 +1,55 @@
+"""Interpolates on grids of models for a known Teff and log g to obtain photometry in any band."""
+
+import os.path
+import numpy as np
+import pandas as pd
+from scipy.interpolate import griddata
+import matplotlib.pyplot as plt
+
+# Links to where I've downloaded some grids of models - can add any grids with other wavelength bands
+# These models are pure-H models. Find others at: https://warwick.ac.uk/fac/sci/physics/research/astro/people/tremblay/modelgrids/ 
+
+edr3grid = '/Users/mairiobrien/OneDrive - University of Warwick/Year One/40pc South/IR Excess/GaiaEDR3_pureH.txt'
+Teff_G, logg_G, MMo_G, Mbol_G, G, BP, RP, RVS_G = np.loadtxt(edr3grid, unpack=True) # check the column headers for each grid you use, so you load in the correct columns 
+
+TwoMASSgrid = '/Users/mairiobrien/OneDrive - University of Warwick/Year One/40pc South/IR Excess/2MASS_pureH.txt'
+Teff_2, logg_2, MMo_2, J, H, Ks = np.loadtxt(TwoMASSgrid, unpack=True)
+
+WISEgrid = '/Users/mairiobrien/OneDrive - University of Warwick/Year One/40pc South/IR Excess/WISE_pureH.txt'
+Teff_W, logg_W, MMo_W, W1, W2, W3, W4 = np.loadtxt(WISEgrid, unpack=True)
+
+# Wavelengths at the various bands (Angstrom). Can find these on Simbad.
+gaia_wl = [6730, 5320, 7970]
+twomass_wl = [12350, 16620, 21590]
+wise_wl = [33500, 46000, 160000]
+
+# Interpolation Function
+def mag_from_Teff_logg(Teff_mag, logg_mag, mag, Teff, logg):
+    """
+    Input Teff (K) and logg to get any magnitude
+    """
+    magnitude = griddata((Teff_mag, logg_mag), mag, (Teff, logg))
+    return magnitude
+
+# Create a synthetic magnitude SED for all the datapoints.
+# You can now put in the Teff and log g that you need to use for your interpolation.
+# You'll need to edit this to add in the photometry that you're interpolating over.
+
+def create_SED(Teff, logg):
+    # Gaia
+    mG = mag_from_Teff_logg(Teff_G, logg_G, G, Teff, logg)
+    mBP = mag_from_Teff_logg(Teff_G, logg_G, BP, Teff, logg)
+    mRP = mag_from_Teff_logg(Teff_G, logg_G, RP, Teff, logg)
+
+    # 2MASS
+    mJ = mag_from_Teff_logg(Teff_2, logg_2, J, Teff, logg)
+    mH = mag_from_Teff_logg(Teff_2, logg_2, H, Teff, logg)
+    mKs = mag_from_Teff_logg(Teff_2, logg_2, Ks, Teff, logg)
+
+    # WISE
+    mW1 = mag_from_Teff_logg(Teff_W, logg_W, W1, Teff, logg)
+    mW2 = mag_from_Teff_logg(Teff_W, logg_W, W2, Teff, logg)
+
+    SED = [mG, mBP, mRP, mJ, mH, mKs, mW1, mW2]
+    return SED
+
