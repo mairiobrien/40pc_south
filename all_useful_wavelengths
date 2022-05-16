@@ -1,0 +1,99 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+
+h_alpha = 6562.79
+plt.vlines(h_alpha, 0, 7, linestyles='-', label='H', colors = 'green')
+
+h_beta = 4861.35
+plt.vlines(h_beta, 0, 7, linestyles='-', colors = 'green')
+
+h_gamma = 4340.472
+plt.vlines(h_gamma, 0, 7, linestyles='-', colors = 'green')
+
+h_delta = 4101.734
+plt.vlines(h_delta, 0, 7, linestyles='-', colors = 'green')
+
+h_eps = 3970
+plt.vlines(h_eps, 0, 7, linestyles='-', colors = 'green')
+
+h_zeta = 3889.064
+plt.vlines(h_zeta, 0, 7, linestyles='-', colors = 'green')
+
+h_eta = 3835.397
+plt.vlines(h_eta, 0, 7, linestyles='-', colors = 'green')
+
+# Plot neutral Helium lines
+strong_He_1 = 5876
+plt.vlines(strong_He_1, 0, 7, linestyles='-', label='He', colors = 'blue')
+
+strong_He_2 = 6678
+plt.vlines(strong_He_2, 0, 7, linestyles='-', colors = 'blue')
+
+weak_He = 4471
+plt.vlines(weak_He, 0, 7, linestyles='-', colors = 'blue')
+
+weak_He1 = 4713
+plt.vlines(weak_He1, 0, 7, linestyles='-', colors = 'blue')
+
+weak_He2 = 4921
+plt.vlines(weak_He2, 0, 7, linestyles='-', colors = 'blue')
+
+weak_He3 = 5013
+plt.vlines(weak_He3, 0, 7, linestyles='-', colors = 'blue')
+
+caII_1 = 3968
+plt.vlines(caII_1, 0, 7, linestyles='-', colors = 'magenta', label = 'Ca II')
+
+caII_2 = 3934
+plt.vlines(caII_2, 0, 7, linestyles='-', colors = 'magenta')
+
+caII_3 = 8600
+plt.vlines(caII_3, 0, 7, linestyles='-', colors = 'magenta')
+
+caI = 4226
+plt.vlines(caI, 0, 7, linestyles='-', colors = 'magenta', label = 'Ca I')
+
+mg = 3835
+plt.vlines(mg, 0, 7, linestyles='-', colors = 'purple', label='Mg I')
+
+fe = 3730
+plt.vlines(fe, 0, 7, linestyles='-', colors = 'pink', label='Fe I')
+
+mgh = 5190
+plt.vlines(mgh, 0, 7, linestyles='-', colors = 'steelblue', label='MgH Band')
+
+li = 6708
+plt.vlines(li, 0, 7, linestyles='-', colors = 'grey', label='Li I')
+
+na_1 = 5892
+plt.vlines(na_1, 0, 7, linestyles='-', colors = 'gold', label='Na I')
+
+na_2 = 5893
+plt.vlines(na_2, 0, 7, linestyles='-', colors = 'gold')
+
+na_3 = 8191
+plt.vlines(na_3, 0, 7, linestyles='-', colors = 'gold')
+
+k_1 = 7665
+plt.vlines(k_1, 0, 7, linestyles='-', colors = 'violet', label='K I')
+
+k_2 = 7680
+plt.vlines(k_2, 0, 7, linestyles='-', colors = 'violet')
+
+k_3 = 7699
+plt.vlines(k_3, 0, 7, linestyles='-', colors = 'violet')
+
+# Plot Carbon lines
+
+c_1 = 4380
+plt.vlines(c_1, 0, 7, linestyles='-', colors = 'orange', label='C')
+
+c_2 = 4737
+plt.vlines(c_2, 0, 7, linestyles='-', colors = 'orange')
+
+c_3 = 5165
+plt.vlines(c_3, 0, 7, linestyles='-', colors = 'orange')
+
+c_4 = 5635
+plt.vlines(c_4, 0, 7, linestyles='-', colors = 'orange')
