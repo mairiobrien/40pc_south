@@ -1,0 +1,52 @@
+# For a desired X-Shooter .dat file, enter the path in the variable 'path', then plot the spectrum 
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+
+plt.rcParams["font.family"] = "Helvetica"
+
+# Copy data file path into the below for UVB
+path1 = '/Users/mairiobrien/OneDrive - University of Warwick/Year One/40pc South/south_2.0/WDJ001349.89-714954.26/WDJ001349.89-714954.26_SCI_SLIT_FLUX_MERGE1D_UVB_merged.dat'
+wl1, flx1, flx_err1 = np.loadtxt(path1, unpack=True)
+
+wl2 = []
+flx2 = []
+
+# Copy data file path into the below for VIS
+path = '/Users/mairiobrien/OneDrive - University of Warwick/Year One/40pc South/south_2.0/WDJ001349.89-714954.26/WDJ001349.89-714954.26_SCI_SLIT_FLUX_MERGE1D_VIS_TAC_merged.dat'
+wl, flx, flx_err = np.loadtxt(path, unpack=True)
+
+wl3 = []
+flx3 = []
+
+for i in range(len(wl)):
+    if wl[i] > 5580:
+        wl2.append(wl[i])
+        flx2.append(flx[i])
+
+for i in range(len(wl1)):
+    if wl1[i] > 3300:
+        wl3.append(wl1[i])
+        flx3.append(flx1[i])
+
+# Re-bin data to reduce noise
+
+bin_size = 3000
+
+bin_means2, bin_edges2, binnumber2 = stats.binned_statistic(wl2, flx2, 'mean', bins=bin_size)
+bin_means3, bin_edges3, binnumber3 = stats.binned_statistic(wl3, flx3, 'mean', bins=bin_size)
+
+# Plot spectrum
+plt.plot(np.linspace(np.min(wl2), np.max(wl2), bin_size), np.array(bin_means2)/1e-15, 'k')
+
+# Plot spectrum
+plt.plot(np.linspace(np.min(wl3), np.max(wl3), bin_size), np.array(bin_means3)/1e-15, 'k')
+
+# Labels
+plt.xlim(3530, 9000) # edit the limits accordingly
+plt.ylim(0, 2.5)
+plt.xlabel('Wavelength ($\AA$)')
+plt.ylabel('F$_{\lambda}$ (10$^{-15}$ erg cm$^{-2}$ s$^{-1}$ $\AA^{-1}$)')
+plt.legend()
+plt.show()
