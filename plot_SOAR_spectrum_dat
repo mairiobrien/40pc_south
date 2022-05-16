@@ -1,0 +1,27 @@
+# For a desired SOAR .dat file, enter the path in the variable 'path', then plot the spectrum 
+
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+
+plt.rcParams["font.family"] = "Helvetica"
+
+# Copy spectrum path below
+path = '/Users/mairiobrien/OneDrive - University of Warwick/Year One/40pc South/south_2.0/WDJ003713.77-281449.81/WDJ003713.77-281449.81_2018-07-07_SOAR 4_Blue.dat'
+wl, flx, flx_err = np.loadtxt(path, unpack=True)
+
+# Re-bin data to reduce noise
+
+bin_size = 500
+
+bin_means, bin_edges, binnumber = stats.binned_statistic(wl, flx, 'mean', bins=bin_size)
+
+# Plot spectrum
+plt.plot(np.linspace(np.min(wl), np.max(wl), bin_size), np.array(bin_means)/1e-16, 'k')
+
+# Labels
+plt.xlim(3800, 5400) # edit the limits accordingly
+plt.ylim(0, 3.5)
+plt.xlabel('Wavelength ($\AA$)')
+plt.ylabel('F$_{\lambda}$ (10$^{-16}$ erg cm$^{-2}$ s$^{-1}$ $\AA^{-1}$)')
+plt.show()
